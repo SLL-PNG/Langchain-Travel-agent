@@ -108,10 +108,10 @@ python main.py
 | --- | --- | --- |
 | `DEEPSEEK_API_KEY` | 是 | DeepSeek API Key |
 | `DEEPSEEK_BASE_URL` | 是 | DeepSeek OpenAI 兼容接口地址，默认 `https://api.deepseek.com` |
-| `DEEPSEEK_MODEL` | 是 | 模型名称，例如 `deepseek-chat` |  
+| `DEEPSEEK_MODEL` | 是 | 模型名称，例如 `deepseek-chat` | 
 | `AMAP_MCP_URL` | 是 | 高德地图 MCP Server 的 SSE 地址 |  魔搭社区
 | `BING_MCP_URL` | 否 | Bing 搜索 MCP Server 的 SSE 地址 |  魔搭社区
-| `TRAIN12306_MCP_URL` | 否 | 12306 MCP Server 的 Streamable HTTP 地址 |  
+| `TRAIN12306_MCP_URL` | 否 | 12306 MCP Server 的 Streamable HTTP 地址 |
 
 `.env` 会被 `.gitignore` 忽略，请不要把真实密钥、个人 MCP 地址或本地配置提交到 GitHub。
 
@@ -142,24 +142,6 @@ Content-Type: application/json
 - `travel_graph.py` 是当前主流程，负责父 Agent 规划、子 Agent 执行、补全判断和最终汇总。
 - `tools.py` 会按环境变量动态加载 MCP Server；可选 MCP 未配置时会自动跳过。
 - `static/app.js` 会把 `/api/chat` 返回的事件渲染成工作流日志和推理摘要。
-- `docs/ARCHITECTURE.md` 保留了早期架构文档，可作为理解项目演进的参考。
 
-## 上传 GitHub 前检查
 
-```bash
-git status
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/your-name/langchain-travel-agent.git
-git push -u origin main
-```
 
-提交前建议确认：
-
-- `.env` 未出现在 `git status` 中。
-- 没有 `__pycache__/`、`.log`、本地缓存或临时调试文件。
-- `.env.example` 只包含占位符，不包含真实 Key、个人 URL 或账号信息。
-
-## License
-
-MIT
