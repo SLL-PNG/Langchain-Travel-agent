@@ -108,10 +108,10 @@ python main.py
 | --- | --- | --- |
 | `DEEPSEEK_API_KEY` | 是 | DeepSeek API Key |
 | `DEEPSEEK_BASE_URL` | 是 | DeepSeek OpenAI 兼容接口地址，默认 `https://api.deepseek.com` |
-| `DEEPSEEK_MODEL` | 是 | 模型名称，例如 `deepseek-chat` |
-| `AMAP_MCP_URL` | 是 | 高德地图 MCP Server 的 SSE 地址 |
-| `BING_MCP_URL` | 否 | Bing 搜索 MCP Server 的 SSE 地址 |
-| `TRAIN12306_MCP_URL` | 否 | 12306 MCP Server 的 Streamable HTTP 地址 |
+| `DEEPSEEK_MODEL` | 是 | 模型名称，例如 `deepseek-chat` |  
+| `AMAP_MCP_URL` | 是 | 高德地图 MCP Server 的 SSE 地址 |  魔搭社区
+| `BING_MCP_URL` | 否 | Bing 搜索 MCP Server 的 SSE 地址 |  魔搭社区
+| `TRAIN12306_MCP_URL` | 否 | 12306 MCP Server 的 Streamable HTTP 地址 |  
 
 `.env` 会被 `.gitignore` 忽略，请不要把真实密钥、个人 MCP 地址或本地配置提交到 GitHub。
 
