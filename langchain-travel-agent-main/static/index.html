@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智能旅游规划 Agent 助手</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <section>
+          <p class="eyebrow">LangGraph + LangChain + MCP</p>
+          <h1>智能旅游规划 Agent 助手</h1>
+          <p class="subtitle">
+            父 Agent 负责规划、调度与整合；地图、搜索、交通子 Agent 协同执行，生成可验证的旅行攻略。
+          </p>
+        </section>
+        <div class="status-card">
+          <span class="status-dot"></span>
+          <div>
+            <strong>本地服务运行中</strong>
+            <small id="service-url">FastAPI</small>
+          </div>
+        </div>
+      </header>
+
+      <section class="capabilities">
+        <span>Plan-Execute-Replan</span>
+        <span>高德地图 MCP</span>
+        <span>Bing 搜索 MCP</span>
+        <span>12306 MCP</span>
+        <span>工具缓存</span>
+        <span>反馈增量优化</span>
+      </section>
+
+      <section class="workspace">
+        <section class="chat-panel">
+          <div class="panel-header">
+            <div>
+              <h2>旅行规划对话</h2>
+              <p>输入目的地、天数、偏好、交通方式，或者直接要求调整上一版。</p>
+            </div>
+            <button id="clearBtn" class="ghost-btn" type="button">清空</button>
+          </div>
+
+          <div id="chatMessages" class="chat-messages" aria-live="polite">
+            <article class="message assistant">
+              <div class="avatar">AI</div>
+              <div class="bubble">
+                你好，我可以帮你规划行程、查询路线天气、搜索实时攻略，也能结合 12306 查询铁路方案。
+              </div>
+            </article>
+          </div>
+
+          <form id="chatForm" class="composer">
+            <textarea
+              id="queryInput"
+              rows="3"
+              placeholder="例如：规划成都2天轻松路线，结合天气、热门攻略，并帮我看杭州到成都高铁方案"
+              required
+            ></textarea>
+            <button id="sendBtn" type="submit">发送</button>
+          </form>
+        </section>
+
+        <aside class="inspector">
+          <section class="inspector-card">
+            <div class="panel-header compact">
+              <h2>工作流日志</h2>
+              <button id="copyLogsBtn" class="icon-btn" type="button" title="复制日志">复制</button>
+            </div>
+            <div id="workflowLog" class="timeline empty">等待任务开始</div>
+          </section>
+
+          <section class="inspector-card">
+            <div class="panel-header compact">
+              <h2>AI 推理摘要</h2>
+              <button id="copyTraceBtn" class="icon-btn" type="button" title="复制摘要">复制</button>
+            </div>
+            <div id="reasoningTrace" class="trace empty">等待工作流事件生成</div>
+          </section>
+
+          <section class="inspector-card">
+            <details>
+              <summary>原始事件 JSON</summary>
+              <pre id="rawJson" class="raw-json">{}</pre>
+            </details>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
