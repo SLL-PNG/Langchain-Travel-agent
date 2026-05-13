@@ -89,12 +89,44 @@ DEEPSEEK_API_KEY=your_deepseek_api_key
 DEEPSEEK_BASE_URL=https://api.deepseek.com
 DEEPSEEK_MODEL=deepseek-chat
 
+# 高德地图 MCP：魔搭社区 MCP 广场获取 SSE 地址
 AMAP_MCP_URL=your_amap_mcp_sse_url
-BING_MCP_URL=
-TRAIN12306_MCP_URL=
+
+# Bing 搜索 MCP：魔搭社区 MCP 广场获取 SSE 地址，可选
+BING_MCP_URL=your_bing_mcp_sse_url
+
+# 12306 MCP：本地 Streamable HTTP 服务，默认端点为 /mcp
+TRAIN12306_MCP_URL=http://localhost:8000/mcp
 ```
 
-### 4. 启动应用
+### 4. 配置和启动 MCP Server
+
+本项目会在 `tools.py` 中按 `.env` 动态加载 MCP Server：
+
+- `AMAP_MCP_URL`：高德地图 MCP，来自魔搭社区 MCP 广场，传输协议为 `sse`。
+- `BING_MCP_URL`：Bing 搜索 MCP，来自魔搭社区 MCP 广场，传输协议为 `sse`，不配置时自动跳过。
+- `TRAIN12306_MCP_URL`：12306 火车票 MCP，本地启动后通过 `streamable_http` 接入，地址通常是 `http://localhost:8000/mcp`。
+
+高德地图和 Bing 搜索 MCP 的配置方式：
+
+1. 打开魔搭社区 MCP 广场。
+2. 搜索并创建/启用高德地图 MCP、Bing 搜索 MCP。
+3. 复制平台提供的 SSE 地址，分别填入 `AMAP_MCP_URL` 和 `BING_MCP_URL`。
+
+12306 MCP 使用本地 Streamable HTTP 服务。若你的 12306 MCP 项目在桌面目录，可按下面方式启动：
+
+```powershell
+cd C:\Users\XXXXX\Desktop\mcp-server-12306
+uv run python scripts/start_server.py
+```
+
+启动后服务默认监听 `8000` 端口，MCP endpoint 是：
+
+```env
+TRAIN12306_MCP_URL=http://localhost:8000/mcp
+```
+
+### 5. 启动应用
 
 ```bash
 python main.py
@@ -104,14 +136,14 @@ python main.py
 
 ## 环境变量
 
-| 变量名 | 必填 | 说明 |
-| --- | --- | --- |
-| `DEEPSEEK_API_KEY` | 是 | DeepSeek API Key |
-| `DEEPSEEK_BASE_URL` | 是 | DeepSeek OpenAI 兼容接口地址，默认 `https://api.deepseek.com` |
-| `DEEPSEEK_MODEL` | 是 | 模型名称，例如 `deepseek-chat` | 
-| `AMAP_MCP_URL` | 是 | 高德地图 MCP Server 的 SSE 地址 |  魔搭社区
-| `BING_MCP_URL` | 否 | Bing 搜索 MCP Server 的 SSE 地址 |  魔搭社区
-| `TRAIN12306_MCP_URL` | 否 | 12306 MCP Server 的 Streamable HTTP 地址 |
+| 变量名 | 必填 | 来源/协议 | 说明 |
+| --- | --- | --- | --- |
+| `DEEPSEEK_API_KEY` | 是 | DeepSeek | DeepSeek API Key |
+| `DEEPSEEK_BASE_URL` | 是 | DeepSeek | DeepSeek OpenAI 兼容接口地址，默认 `https://api.deepseek.com` |
+| `DEEPSEEK_MODEL` | 是 | DeepSeek | 模型名称，例如 `deepseek-chat` |
+| `AMAP_MCP_URL` | 是 | 魔搭社区 / SSE | 高德地图 MCP Server 的 SSE 地址，用于 POI、路线、天气等地图能力 |
+| `BING_MCP_URL` | 否 | 魔搭社区 / SSE | Bing 搜索 MCP Server 的 SSE 地址，用于联网搜索补充攻略信息；为空时跳过 |
+| `TRAIN12306_MCP_URL` | 否 | 本地服务 / Streamable HTTP | 12306 MCP Server 地址，默认 `http://localhost:8000/mcp`，用于火车票、站点、经停和中转查询 |
 
 `.env` 会被 `.gitignore` 忽略，请不要把真实密钥、个人 MCP 地址或本地配置提交到 GitHub。
 
@@ -142,6 +174,5 @@ Content-Type: application/json
 - `travel_graph.py` 是当前主流程，负责父 Agent 规划、子 Agent 执行、补全判断和最终汇总。
 - `tools.py` 会按环境变量动态加载 MCP Server；可选 MCP 未配置时会自动跳过。
 - `static/app.js` 会把 `/api/chat` 返回的事件渲染成工作流日志和推理摘要。
-
 
 
