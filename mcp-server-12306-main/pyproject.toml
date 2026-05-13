@@ -1,0 +1,97 @@
+[build-system]
+requires = ["hatchling", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mcp-server-12306"
+version = "0.3.1.post20260425"
+description = "MCP服务器用于12306车票查询"
+authors = [
+    {name = "Drfccv", email = "2713587802@qq.com"}
+]
+dynamic = ["readme"]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "httpx>=0.25.0",
+    "pydantic>=2.4.0",
+    "pydantic-settings>=2.0.0",
+    "python-multipart>=0.0.6",
+    "mcp>=1.9.0",
+    "python-dotenv>=1.0.0",
+    "aiofiles>=23.2.1",
+    "beautifulsoup4>=4.12.0",
+    "requests>=2.31.0",
+    "aiohttp>=3.9.0",
+    "pytz>=2025.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-httpx>=0.26.0",
+    "black>=23.9.0",
+    "isort>=5.12.0",
+    "mypy>=1.6.0",
+    "pre-commit>=3.5.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-httpx>=0.26.0",
+    "black>=23.9.0",
+    "isort>=5.12.0",
+    "mypy>=1.6.0",
+    "pre-commit>=3.5.0",
+]
+
+[tool.uv]
+# 配置多个镜像源
+[[tool.uv.index]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
+
+[[tool.uv.index]]
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+
+[project.scripts]
+mcp-server-12306 = "mcp_12306.cli:main"
+mcp-12306 = "mcp_12306.server:main"
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_12306"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/mcp_12306/resources/station_name.js" = "mcp_12306/resources/station_name.js"
+
+[tool.hatch.build.targets.sdist.force-include]
+"src/mcp_12306/resources/station_name.js" = "src/mcp_12306/resources/station_name.js"
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = "\n\nmcp-name: io.github.drfccv/mcp-server-12306"
